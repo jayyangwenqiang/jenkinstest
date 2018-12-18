@@ -1,13 +1,67 @@
-pipeline{
-	agent any
- 
-	stages {
- 
-		stage('test'){
-			steps {
-				echo "hello world"
-			
-			}
-		}			
-	}
+pipeline {
+    agent any
+    stages {
+        stage('Build Image') {
+            steps {
+                sshPublisher(
+                    publishers: [
+                    sshPublisherDesc(
+                        configName: 'jenkinstest',
+                        transfers: [
+                        sshTransfer(
+                            excludes: '',
+                            execCommand: '''
+                                set -ex && cd /Users/Jay/test && rm -rf jenkins && \
+                                git https://github.com/jayyangwenqiang/jenkinstest.git && \
+                                cd jenkins/ &&  /Users/Jay/maven/apache-maven-3.6.0 package -Dmaven.test.skip=true && docker build -t jenkins:v1.0 .
+                            ''',
+                        )
+                    ],
+                    verbose: true
+                    )
+                ]
+                )
+            }
+        }
+
+        stage('deploy') {
+            steps {
+                sshPublisher(
+                    publishers: [
+                    sshPublisherDesc(
+                        configName: 'jenkinstest',
+                        transfers: [
+                        sshTransfer(
+                            excludes: '',
+                            execCommand: '''
+                                set -ex && docker run -d --name jenkinstest -p 8802:8802
+                            ''',
+                        )
+                    ],
+                    verbose: true
+                    )
+                ]
+                )
+            }
+        }
+    }
+
+    post {
+            always {
+                echo '清理项目目录'
+                /*  deleteDir() clean up our workspace */
+            }
+            success {
+                echo '发布成功'
+            }
+            unstable {
+                echo '不稳定'
+            }
+            failure {
+                echo '发布失败！'
+            }
+            changed {
+                echo '项目变更'
+            }
+        }
 }
