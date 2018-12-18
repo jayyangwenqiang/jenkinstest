@@ -6,7 +6,6 @@ pipeline {
                 sshPublisher(
                     publishers: [
                     sshPublisherDesc(
-                        configName: 'jenkinstest',
                         transfers: [
                         sshTransfer(
                             excludes: '',
@@ -29,7 +28,6 @@ pipeline {
                 sshPublisher(
                     publishers: [
                     sshPublisherDesc(
-                        configName: 'jenkinstest',
                         transfers: [
                         sshTransfer(
                             excludes: '',
