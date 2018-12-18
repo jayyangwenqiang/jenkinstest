@@ -8,7 +8,7 @@ pipeline {
 				sh '''
 					cd jenkins
 					/Users/Jay/maven/apache-maven-3.6.0/bin/mvn package -Dmaven.test.skip=true
-					docker build -t jenkins:v1.0 .
+					sudo docker build -t jenkins:v1.0 .
                 '''
             }
         }
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 echo '发布生产环境...'
                 sh '''
-                   docker run -d --name jenkinstest -p 8802:8802 jenkins:v1.0
+                   sudo docker run -d --name jenkinstest -p 8802:8802 jenkins:v1.0
                 '''
             }
         }
