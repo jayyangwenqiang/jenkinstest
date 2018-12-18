@@ -32,7 +32,7 @@ pipeline {
                         sshTransfer(
                             excludes: '',
                             execCommand: '''
-                                set -ex && docker run -d --name jenkinstest -p 8802:8802
+                                set -ex && docker run -d --name jenkinstest -p 8802:8802 jenkins:v1.0
                             ''',
                         )
                     ],
