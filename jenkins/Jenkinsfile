@@ -8,6 +8,7 @@ pipeline {
 				sh '''
 					cd jenkins
 					/Users/Jay/maven/apache-maven-3.6.0/bin/mvn package -Dmaven.test.skip=true
+					echo "$USER"
 					sudo docker build -t jenkins:v1.0 .
                 '''
             }
