@@ -6,7 +6,9 @@ pipeline {
                 echo '项目构建中...'
                 checkout scm
 				sh '''
-					cd jenkins/ &&  /Users/Jay/maven/apache-maven-3.6.0 package -Dmaven.test.skip=true && docker build -t jenkins:v1.0 .
+					cd jenkins
+					/Users/Jay/maven/apache-maven-3.6.0 package -Dmaven.test.skip=true
+					docker build -t jenkins:v1.0 .
                 '''
             }
         }
@@ -29,7 +31,7 @@ pipeline {
             steps {
                 echo '发布生产环境...'
                 sh '''
-                    set -ex && docker run -d --name jenkinstest -p 8802:8802 jenkins:v1.0
+                   docker run -d --name jenkinstest -p 8802:8802 jenkins:v1.0
                 '''
             }
         }
