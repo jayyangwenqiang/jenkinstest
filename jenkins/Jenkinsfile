@@ -7,7 +7,7 @@ pipeline {
                 checkout scm
 				sh '''
 					cd jenkins
-					/Users/Jay/maven/apache-maven-3.6.0 package -Dmaven.test.skip=true
+					mvn package -Dmaven.test.skip=true
 					docker build -t jenkins:v1.0 .
                 '''
             }
