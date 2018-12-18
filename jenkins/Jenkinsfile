@@ -1,65 +1,56 @@
 pipeline {
     agent any
     stages {
-        stage('Build Image') {
+        stage('项目构建') {
             steps {
-                sshPublisher(
-                    publishers: [
-                    sshPublisherDesc(
-                        transfers: [
-                        sshTransfer(
-                            excludes: '',
-                            execCommand: '''
-                                set -ex && cd /Users/Jay/test && rm -rf jenkins && \
-                                git https://github.com/jayyangwenqiang/jenkinstest.git && \
-                                cd jenkins/ &&  /Users/Jay/maven/apache-maven-3.6.0 package -Dmaven.test.skip=true && docker build -t jenkins:v1.0 .
-                            ''',
-                        )
-                    ],
-                    verbose: true
-                    )
-                ]
-                )
+                echo '项目构建中...'
+                checkout scm
+				sh '''
+					cd jenkins/ &&  /Users/Jay/maven/apache-maven-3.6.0 package -Dmaven.test.skip=true && docker build -t jenkins:v1.0 .
+                '''
             }
         }
-
-        stage('deploy') {
+        stage('发布测试环境') {
             steps {
-                sshPublisher(
-                    publishers: [
-                    sshPublisherDesc(
-                        transfers: [
-                        sshTransfer(
-                            excludes: '',
-                            execCommand: '''
-                                set -ex && docker run -d --name jenkinstest -p 8802:8802 jenkins:v1.0
-                            ''',
-                        )
-                    ],
-                    verbose: true
-                    )
-                ]
-                )
+                echo '发布测试环境...'
+            }
+        }
+        stage('自动化测试') {
+            steps {
+                echo '自动化测试中...'
+            }
+        }
+        stage('确认发布生产') {
+            steps {
+                input message: '确认发布？', ok: '发布'
+            }
+        }
+        stage('发布生产环境') {
+            steps {
+                echo '发布生产环境...'
+                sh '''
+                    set -ex && docker run -d --name jenkinstest -p 8802:8802 jenkins:v1.0
+                '''
             }
         }
     }
 
     post {
-            always {
-                echo '清理项目目录'
-                /*  deleteDir() clean up our workspace */
-            }
-            success {
-                echo '发布成功'
-            }
-            unstable {
-                echo '不稳定'
-            }
-            failure {
-                echo '发布失败！'
-            }
-            changed {
-                echo '项目变更'
-            }
+        always {
+            echo '清理项目目录'
+            /*  deleteDir() clean up our workspace */
         }
+        success {
+            echo '发布成功'
+        }
+        unstable {
+            echo '不稳定'
+        }
+        failure {
+            echo '发布失败！'
+        }
+        changed {
+            echo '项目变更'
+        }
+    }
 }
