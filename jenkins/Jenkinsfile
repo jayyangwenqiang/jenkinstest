@@ -6,8 +6,8 @@ pipeline {
                 echo '项目构建中...'
                 checkout scm
 				sh '''
+				    sh mvnw -X install
 					cd jenkins
-					ln –s /opt/maven/bin/mvn /usr/bin/mvn
 					mvn package -Dmaven.test.skip=true
 					docker build -t jenkins:v1.0 .
                 '''
