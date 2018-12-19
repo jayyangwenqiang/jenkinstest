@@ -3,5 +3,3 @@ services:
   jenkinstest:
     port:
       - "8802:8802"
-    volumes:
-      - ../src : /src

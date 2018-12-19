@@ -34,7 +34,7 @@ pipeline {
                         sshTransfer(
                             excludes: '',
                             execCommand: '''
-                                set -ex && cd /home/app/jenkinstest/jenkins && docker-compose up -d
+                                set -ex && cd jenkinstest/jenkins && docker-compose up -d
                             ''',
                         )
                     ],
