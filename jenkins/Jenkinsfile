@@ -11,7 +11,7 @@ pipeline {
                         sshTransfer(
                             excludes: '',
                             execCommand: '''
-                                set -ex && cd /home/app && rm -rf jenkins && \
+                                set -ex && cd /home/app && rm -rf jenkinstest && \
                                 git clone https://github.com/jayyangwenqiang/jenkinstest.git && \
                                 cd jenkins/ &&  mvn package -Dmaven.test.skip=true && docker build -t jenkinstest:v1.0 .
                             ''',
