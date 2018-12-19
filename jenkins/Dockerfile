@@ -4,7 +4,8 @@ RUN apt install tzdata \
     && rm /etc/localtime \
     && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && mkdir -p /usr/src/app \ 
-    && mkdir -p /data/jenkinstest
+    && mkdir -p /data/jenkinstest \
+    && echo "Asia/Shanghai" > /etc/timezone
 
 WORKDIR /usr/src/app
 
