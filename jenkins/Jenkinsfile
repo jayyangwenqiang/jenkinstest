@@ -34,7 +34,7 @@ pipeline {
                         sshTransfer(
                             excludes: '',
                             execCommand: '''
-                                set -ex && docker run -d --name jenkinstest2 -p 8802:8802 jenkinstest:v1.0
+                                set -ex && cd /home/app/jenkinstest/jenkins && docker-compose up -d
                             ''',
                         )
                     ],
