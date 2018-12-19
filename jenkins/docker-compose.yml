@@ -5,4 +5,5 @@ services:
     ports:
       - "8802:8802"
     volumes:
+    # 宿主机目录 : 容器目录
       - /etc/localtime:/etc/localtime
