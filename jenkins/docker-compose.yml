@@ -4,3 +4,5 @@ services:
     image: jenkinstest:v1.0
     ports:
       - "8802:8802"
+    volumes:
+      - /etc/localtime:/etc/localtime
