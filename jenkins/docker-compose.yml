@@ -1,5 +1,5 @@
 version: '2'
 services:
   jenkinstest:
-    port:
+    ports:
       - "8802:8802"
