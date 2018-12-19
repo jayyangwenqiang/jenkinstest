@@ -1,6 +1,6 @@
 FROM java:8u111-jdk
 
-RUN apt install tzdata \
+RUN apt-get install tzdata \
     && rm /etc/localtime \
     && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && mkdir -p /usr/src/app \ 
