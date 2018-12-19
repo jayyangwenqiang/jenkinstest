@@ -1,5 +1,6 @@
 version: '2'
 services:
   jenkinstest:
+    image: jenkinstest:v1.0
     ports:
       - "8802:8802"
