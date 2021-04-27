@@ -1,3 +1,4 @@
+# compose version 最新3
 version: '2'
 services:
   jenkinstest:
